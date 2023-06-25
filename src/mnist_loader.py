@@ -1,3 +1,7 @@
+"""
+ A library to load the MNIST image data.
+"""
+
 import pickle
 import gzip
 import numpy as np
@@ -43,18 +47,18 @@ def load_data_wrapper():
     return training_data, validation_data, test_data
     
 
+"""
+    Return a 10-dimensional unit vector with a 1.0 in the jth
+position and zeroes elsewhere.  This is used to convert a digit
+(0...9) into a corresponding desired output from the neural
+network.
+"""
 def vectorize_label(i):
     vec_label = np.zeros((10,1))
     vec_label[i] = 1.0
     return vec_label
     
 
-
-if __name__ == "__main__":
-    training_data, validation_data, test_data = load_data_wrapper()
-    print(len(training_data[0]))
-    print(len(validation_data[0]))
-    print(len(test_data[0]))
     
     
     
