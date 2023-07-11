@@ -36,13 +36,13 @@ def load_data_wrapper():
     
     training_data = [np.reshape(x,(784,1)) for x in tr_d[0]]
     training_label = [vectorize_label(i) for i in tr_d[1]]
-    training_data = (training_data,training_label)
+    training_data = list(zip(training_data,training_label))
     
     validation_data = [np.reshape(x,(784,1)) for x in va_d[0]]
-    validation_data = (validation_data,va_d[1])
+    validation_data = list(zip(validation_data,va_d[1]))
     
     test_data = [np.reshape(x,(784,1)) for x in te_d[0]]
-    test_data = (test_data,te_d[1])
+    test_data = list(zip(test_data,te_d[1]))
     
     return training_data, validation_data, test_data
     
