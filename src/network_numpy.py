@@ -62,7 +62,8 @@ class Network:
             activation = sigmoid(z)
             activations.append(activation)
         
-        delta = self.cost_derivative(activation[-1],y) * sigmoid_prime(zs[-1])
+        delta = self.cost_derivative(activations[-1], y) * \
+            sigmoid_prime(zs[-1])
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
         
@@ -78,13 +79,9 @@ class Network:
         return output_activations - y
     
     def evaluate(self,test_data):
-        sum = 0
-        for x,y in test_data:
-            test_result = np.argmax(self.feedforward(x))
-            if test_result == y:
-                sum += 1
-
-        return sum
+        test_results = [(np.argmax(self.feedforward(x)), y)
+                        for (x, y) in test_data]
+        return sum(int(x == y) for (x, y) in test_results)
                 
         
 def sigmoid(z):
@@ -93,9 +90,4 @@ def sigmoid(z):
 def sigmoid_prime(z):
     return sigmoid(z) * (1 - sigmoid(z))
 
-
-if __name__ == "__main__":
-    net = Network([2,3,2])
-    input = np.array([[1],[2]])
-    print(net.feedforward(input))
     

@@ -27,7 +27,7 @@ def load_data():
     path2data = "../data/mnist.pkl.gz"
     path = get_path(path2data)
     f = gzip.open(path)
-    training_data, validation_data, test_data = pickle.load(f, encoding="latin1")
+    training_data, validation_data, test_data = pickle.load(f,encoding='iso-8859-1')
     f.close()
     return training_data, validation_data, test_data
 
