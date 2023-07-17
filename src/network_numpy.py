@@ -1,6 +1,9 @@
+import sys
 import numpy as np
 import random
 from tqdm import tqdm
+
+print(np.__file__)
 
 class Network:
     def __init__(self,sizes): # sizes : number of neurons in the respective layers
@@ -62,16 +65,22 @@ class Network:
             activation = sigmoid(z)
             activations.append(activation)
         
-        delta = self.cost_derivative(activations[-1], y) * \
-            sigmoid_prime(zs[-1])
+        # Eq➀ : error in the output layer 
+        delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1])
+        # Eq③ : rate of the change if the cost with respect to biases
         nabla_b[-1] = delta
+        # Eq④ : rate of the change if the cost with respect to weights
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
         
+        # backpropagate the error
         for l in range(2,self.num_layers):
             z = zs[-l]
             sp = sigmoid_prime(z)
+            # Eq② : error delta(l) in terms of the error in the next layer delata(l+1)
             delta = np.dot(self.weights[-l+1].transpose(),delta) * sp
+            # Eq③ : rate of the change if the cost with respect to biases
             nabla_b[-l] = delta
+            # Eq④ : rate of the change if the cost with respect to weights
             nabla_w[-l] = np.dot(delta,activations[-l-1].transpose())
         return nabla_b, nabla_w
     
@@ -79,8 +88,7 @@ class Network:
         return output_activations - y
     
     def evaluate(self,test_data):
-        test_results = [(np.argmax(self.feedforward(x)), y)
-                        for (x, y) in test_data]
+        test_results = [(np.argmax(self.feedforward(x)), y) for (x, y) in test_data]
         return sum(int(x == y) for (x, y) in test_results)
                 
         
