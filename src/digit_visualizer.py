@@ -12,5 +12,6 @@ def visualize(data):
     
 if __name__ == "__main__":
     training_data, validation_data, test_data = mnist_loader.load_data()
-    data = np.reshape(training_data[0][1000],(28,28))
+    # print(np.amax(test_data[0][10]))
+    data = np.reshape(test_data[0][1000],(28,28))
     visualize(data)
